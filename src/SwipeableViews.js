@@ -365,6 +365,11 @@ class SwipeableViews extends Component {
     const touch = applyRotationMatrix(event.touches[0], axis);
 
     this.viewLength = this.rootNode.getBoundingClientRect()[axisProperties.length[axis]];
+
+    if (this.slideWidthPercent) {
+      this.viewLength = this.viewLength * this.slideWidthPercent / 100;
+    }
+
     this.startX = touch.pageX;
     this.lastX = touch.pageX;
     this.vx = 0;
@@ -752,7 +757,7 @@ So animateHeight is most likely having no effect at all.`,
     );
 
     const slideStyle = Object.assign({}, styles.slide, slideStyleProp);
-    this.slideWidthPercent = parseFloat(slideStyle.width);
+    this.slideWidthPercent = slideStyle.width.indexOf('%') > 0 ? parseFloat(slideStyle.width) : 100;
 
     let transition;
     let WebkitTransition;
